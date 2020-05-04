@@ -186,7 +186,7 @@ StdiTable.prototype.tableRowRange = function () {
 	let from = this.currentTableIndex * this.maxRowsByTable,
 		to = from + this.maxRowsByTable
 	if (this.currentTableIndex == this.tableCount() - 1) {
-		to = from + this.csvData.data.length - this.tableCount() * this.maxRowsByTable
+		to = from + this.csvData.data.length - (this.tableCount() - 1) * this.maxRowsByTable - 1
 	}
 	return {
 		from: from,
