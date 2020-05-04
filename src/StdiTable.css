@@ -1,0 +1,109 @@
+.StdiTable {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: calc(100% - 40px) 40px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.StdiTable > .tableContainer {
+	box-sizing: border-box;
+	grid-column: 1/2;
+	grid-row: 1/2;
+	width: 100%;
+	height: 100%;
+	overflow: scroll;
+	padding: 10px 0;
+}
+
+.StdiTable > .navigation {
+	grid-column: 1/2;
+	grid-row: 2/3;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+}
+
+/* see: https://developer.mozilla.org/en-US/docs/Web/CSS/display */
+.bodyPlus {
+	display: table;
+	border-top: solid 1px black;
+	border-bottom: solid 1px black;
+	font-size: 14px;
+	line-height: 14px;
+}
+
+.bodyPlus > .boxHead {
+	display: table-header-group;
+	position: sticky;
+	top: 0;
+	background-color: white;
+}
+
+.bodyPlus > .boxHead > .row.header {
+	display: table-row;
+}
+
+.bodyPlus > .boxHead > .row.header > .cell {
+	display: table-cell;
+	text-align: justify;
+	text-align-last: justify;
+	text-justify: inter-character;
+}
+
+.bodyPlus > .boxHead > .row.header > .cell.stub {}
+
+.bodyPlus > .boxHead > .row.header > .cell.stub.last {
+}
+
+.bodyPlus > .boxHead > .row.header:last-of-type > .cell {
+	border-bottom: solid 1px black;
+}
+
+.bodyPlus > .boxHead > .row.header > .cell.stubHead {
+	display: table-cell;
+}
+
+.bodyPlus > .body {
+	display: table-row-group;
+}
+
+.bodyPlus > .body > .row {
+	display: table-row;
+}
+
+.bodyPlus > .body > .row > .cell {
+	display: table-cell;
+}
+
+.bodyPlus > .body > .row > .cell.stub {
+	background-color: white;
+}
+
+.bodyPlus > .body > .row > .cell.stub.last {
+}
+
+.bodyPlus .cell {
+	padding: 0.25em 0.5em 0.25em 2em;
+	white-space: nowrap;
+}
+
+.bodyPlus .stub {
+	display: table-column-group;
+	background-color: #e6e6e6;
+	border-right: solid 1px black;
+
+	&:last-child {
+		border-right: solid 1px black;
+	}
+}
+
+.bodyPlus .stub > .column {
+	display: table-column;
+	background-color: white;
+}
