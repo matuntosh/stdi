@@ -75,6 +75,7 @@ StdiTable.prototype.bodyPlusElement = function () {
 	let bodyPlusElement = this.createBodyPlusElement()
 	let boxHeadElement = this.createBoxHeadElement()
 	let body = this.bodyElement()
+	let boxTailElement = this.createBoxTailElement()
 
 	if (this.stubColumnCount > 0) {
 		let stubElement = document.createElement('div')
@@ -92,6 +93,7 @@ StdiTable.prototype.bodyPlusElement = function () {
 	}
 	bodyPlusElement.appendChild(boxHeadElement)
 	bodyPlusElement.appendChild(body)
+	bodyPlusElement.appendChild(boxTailElement)
 	this._bodyPlusElement = bodyPlusElement
 	return this._bodyPlusElement
 }
@@ -109,6 +111,15 @@ StdiTable.prototype.createBoxHeadElement = function () {
 		boxHeadElement.appendChild(headerElement)
 	})
 	return boxHeadElement
+}
+StdiTable.prototype.createBoxTailElement = function () {
+	let boxTailElement = document.createElement('div')
+	boxTailElement.className = 'boxTail';
+	let footerElement = this.createRowElement(this.csvData.header.map((key) => {
+		return ''
+	}), true)
+	boxTailElement.appendChild(footerElement)
+	return boxTailElement
 }
 StdiTable.prototype.bodyElement = function () {
 	if (this._bodyElement) {

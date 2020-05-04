@@ -33,8 +33,6 @@
 /* see: https://developer.mozilla.org/en-US/docs/Web/CSS/display */
 .bodyPlus {
 	display: table;
-	border-top: solid 1px black;
-	border-bottom: solid 1px black;
 	font-size: 14px;
 	line-height: 14px;
 }
@@ -62,6 +60,10 @@
 .bodyPlus > .boxHead > .row.header > .cell.stub.last {
 }
 
+
+.bodyPlus > .boxHead > .row.header:first-of-type > .cell {
+	border-top: solid 1px black;
+}
 .bodyPlus > .boxHead > .row.header:last-of-type > .cell {
 	border-bottom: solid 1px black;
 }
@@ -106,4 +108,27 @@
 .bodyPlus .stub > .column {
 	display: table-column;
 	background-color: white;
+}
+
+.bodyPlus > .boxTail {
+	display: table-footer-group;
+	position: sticky;
+	bottom: 0;
+	background-color: white;
+	border-bottom: solid 1px black;
+}
+.bodyPlus > .boxTail > .row.header {
+	display: table-row;
+}
+.bodyPlus > .boxTail > .row.header > .cell {
+	display: table-cell;
+	text-align: justify;
+	text-align-last: justify;
+	text-justify: inter-character;
+}
+.bodyPlus > .boxTail > .row.header:first-of-type > .cell {
+/*	border-top: solid 1px black;*/
+}
+.bodyPlus > .boxTail > .row.header:last-of-type > .cell {
+	border-bottom: solid 1px black;
 }
