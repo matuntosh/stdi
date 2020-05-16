@@ -36,15 +36,15 @@ class StdiTable extends UIComponent {
 			return this._navigation
 		}
 		let naviComponent = new UIComponent(),
-			prevButton = new ButtonComponent('prev', () => {
+			prevButton = ButtonComponent.PreviousButton((b) => {
 				this.currentTableIndex = Math.max(0, this.currentTableIndex - 1)
 				this.updateTable()
-				tableNumberInput.value(this.currentTableIndex + 1, prevButton)
+				tableNumberInput.value(this.currentTableIndex + 1, b)
 			}),
-			nextButton = new ButtonComponent('next', () => {
+			nextButton = ButtonComponent.NextButton((b) => {
 				this.currentTableIndex = Math.min(this.currentTableIndex + 1, this.tableCount() - 1)
 				this.updateTable()
-				tableNumberInput.value(this.currentTableIndex + 1, nextButton)
+				tableNumberInput.value(this.currentTableIndex + 1, b)
 			}),
 			tableNumberInput = new InputNumberComponent('', this.currentTableIndex + 1, 1, '', (value) => {
 				return Math.max(1, Math.min(this.tableCount(), value))
@@ -54,8 +54,8 @@ class StdiTable extends UIComponent {
 			})
 		naviComponent.component().classList.add('navigation')
 		prevButton.appendTo(naviComponent.component())
-		nextButton.appendTo(naviComponent.component())
 		tableNumberInput.appendTo(naviComponent.component())
+		nextButton.appendTo(naviComponent.component())
 		this._navigation = naviComponent
 		return naviComponent
 	}
