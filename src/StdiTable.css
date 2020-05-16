@@ -5,6 +5,8 @@
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+
+	--background-color: white;
 }
 
 .StdiTable > .tableContainer {
@@ -39,7 +41,8 @@
 	display: table-header-group;
 	position: sticky;
 	top: 0;
-	background-color: white;
+	background-color: var(--background-color);
+	z-index: 3;
 }
 
 .bodyPlus > .boxHead > .row.header {
@@ -83,7 +86,7 @@
 }
 
 .bodyPlus > .body > .row > .cell.stub {
-	background-color: white;
+	background-color: var(--background-color);
 }
 
 .bodyPlus > .body > .row > .cell.stub.last {
@@ -97,6 +100,10 @@
 .bodyPlus .stub {
 	display: table-column-group;
 	border-right: solid 1px black;
+	background-color: var(--background-color);
+	position: sticky;
+	left: 0;
+	z-index: 2;
 
 	&:last-child {
 		border-right: solid 1px black;
@@ -105,15 +112,14 @@
 
 .bodyPlus .stub > .column {
 	display: table-column;
-	background-color: white;
 }
 
 .bodyPlus > .boxTail {
 	display: table-footer-group;
 	position: sticky;
 	bottom: 0;
-	background-color: white;
-	border-bottom: solid 1px black;
+	z-index: 3;
+	background-color: var(--background-color);
 }
 .bodyPlus > .boxTail > .row.header {
 	display: table-row;
@@ -125,7 +131,6 @@
 	text-justify: inter-character;
 }
 .bodyPlus > .boxTail > .row.header:first-of-type > .cell {
-/*	border-top: solid 1px black;*/
 }
 .bodyPlus > .boxTail > .row.header:last-of-type > .cell {
 	border-bottom: solid 1px black;
