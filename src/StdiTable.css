@@ -38,8 +38,9 @@
 	min-height: 100%;
 }
 .StdiTable > .navigation > * > button > svg {
-	height: 100%;
+	height: calc(100% - 2px);
 	width: 16px;
+	padding: 1px;
 }
 
 /* see: https://developer.mozilla.org/en-US/docs/Web/CSS/display */
