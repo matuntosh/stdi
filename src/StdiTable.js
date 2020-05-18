@@ -24,8 +24,8 @@ class StdiTable extends UIComponent {
 	tableCount() {
 		if (this._tableCount == null) {
 
-			this._tableCount = Math.floor(csvData.data.length / this.maxRowsByTable)
-			if (csvData.data.length - this._tableCount * this.maxRowsByTable > 0) {
+			this._tableCount = Math.floor(this.csvData.data.length / this.maxRowsByTable)
+			if (this.csvData.data.length - this._tableCount * this.maxRowsByTable > 0) {
 				this._tableCount += 1
 			}
 		}
