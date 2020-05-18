@@ -36,6 +36,7 @@
 .StdiTable > .navigation > * > button {
 	height: 100%;
 	min-height: 100%;
+	padding: 0;
 }
 .StdiTable > .navigation > * > button > svg {
 	height: calc(100% - 2px);
