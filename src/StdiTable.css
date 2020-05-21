@@ -121,15 +121,13 @@
 
 .bodyPlus .stub {
 	display: table-column-group;
-	border-right: solid 1px black;
 	background-color: var(--background-color);
 	position: sticky;
 	left: 0;
 	z-index: 2;
-
-	&:last-child {
-		border-right: solid 1px black;
-	}
+}
+.bodyPlus .stub.last {
+	border-right: solid 1px black;
 }
 
 .bodyPlus .stub > .column {

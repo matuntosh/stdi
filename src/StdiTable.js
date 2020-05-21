@@ -21,6 +21,14 @@ class StdiTable extends UIComponent {
 		this.navigation().appendTo(c)
 		return c
 	}
+	appendTo(toComponent) {
+		super.appendTo(toComponent)
+		let stubs = this.component().getElementsByClassName('stub')
+		for (var i = 0; i < stubs.length; i += 1) {
+			let stub = stubs.item(i)
+			stub.style.left = stub.getBoundingClientRect().left + 'px'
+		}
+	}
 	tableCount() {
 		if (this._tableCount == null) {
 
