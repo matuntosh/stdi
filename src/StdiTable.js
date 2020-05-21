@@ -13,6 +13,8 @@ class StdiTable extends UIComponent {
 
 		this._bodyPlusElement = null
 		this._bodyElement = null
+
+		this.selectRowAction = (rowData, rowIndex) => {}
 	}
 
 	createComponent() {
@@ -21,14 +23,15 @@ class StdiTable extends UIComponent {
 		this.navigation().appendTo(c)
 		return c
 	}
-	appendTo(toComponent) {
-		super.appendTo(toComponent)
-		let stubs = this.component().getElementsByClassName('stub')
-		for (var i = 0; i < stubs.length; i += 1) {
-			let stub = stubs.item(i)
-			stub.style.left = stub.getBoundingClientRect().left + 'px'
-		}
-	}
+// crushed when set left to value. 2020-05-21 Safari Version 13.1 (macOS 10.15.4)
+//	appendTo(toComponent) {
+//		super.appendTo(toComponent)
+//		let stubs = this.component().getElementsByClassName('stub')
+//		for (var i = 0; i < stubs.length; i += 1) {
+//			let stub = stubs.item(i)
+//			stub.style.left = stub.getBoundingClientRect().left + 'px'
+//		}
+//	}
 	tableCount() {
 		if (this._tableCount == null) {
 
@@ -144,12 +147,12 @@ class StdiTable extends UIComponent {
 			let values = keys.map((key) => {
 				return rowData[key]
 			})
-			let rowElement = this.createRowElement(values, false)
+			let rowElement = this.createRowElement(values, false, row)
 			this._bodyElement.appendChild(rowElement)
 		}
 		return this._bodyElement
 	}
-	createRowElement(values, _isHeader) {
+	createRowElement(values, _isHeader, rowIndex) {
 		let isHeader = _isHeader == true
 		let rowElement = document.createElement('div')
 		rowElement.className = 'row'
@@ -161,6 +164,9 @@ class StdiTable extends UIComponent {
 			let isLastStub = isStub && (columnIndex == this.stubColumnCount - 1)
 			let cellElement = this.createCellElement(value, isStub, isLastStub)
 			rowElement.appendChild(cellElement)
+		})
+		rowElement.addEventListener('click', (e) => {
+			this.selectRowAction(values, rowIndex)
 		})
 		return rowElement
 	}

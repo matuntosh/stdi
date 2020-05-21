@@ -101,12 +101,14 @@
 
 .bodyPlus > .body > .row {
 	display: table-row;
+	background-color: var(--background-color);
 }
 
 .bodyPlus > .body > .row > .cell {
 	display: table-cell;
 }
 
+.bodyPlus > .boxHead > .row.header > .cell.stub,
 .bodyPlus > .body > .row > .cell.stub {
 	background-color: var(--background-color);
 }
@@ -121,10 +123,8 @@
 
 .bodyPlus .stub {
 	display: table-column-group;
-	background-color: var(--background-color);
 	position: sticky;
 	left: 0;
-	z-index: 2;
 }
 .bodyPlus .stub.last {
 	border-right: solid 1px black;
@@ -132,6 +132,10 @@
 
 .bodyPlus .stub > .column {
 	display: table-column;
+}
+
+.bodyPlus > .body > .row:hover {
+	background-color: #dedede;
 }
 
 .bodyPlus > .boxTail {
