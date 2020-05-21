@@ -148,6 +148,7 @@ class StdiTable extends UIComponent {
 				return rowData[key]
 			})
 			let rowElement = this.createRowElement(values, false, row)
+			rowElement.addEventListener('click', this.createSelectRowAction(rowData, row))
 			this._bodyElement.appendChild(rowElement)
 		}
 		return this._bodyElement
@@ -165,10 +166,12 @@ class StdiTable extends UIComponent {
 			let cellElement = this.createCellElement(value, isStub, isLastStub)
 			rowElement.appendChild(cellElement)
 		})
-		rowElement.addEventListener('click', (e) => {
-			this.selectRowAction(values, rowIndex)
-		})
 		return rowElement
+	}
+	createSelectRowAction(rowData, rowIndex) {
+		return (e) => {
+			this.selectRowAction(rowData, rowIndex)
+		}
 	}
 	createCellElement(value, isStub, isLastStub) {
 		let cellElement = document.createElement('div')
