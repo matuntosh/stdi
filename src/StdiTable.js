@@ -208,6 +208,7 @@ class StdiTable extends UIComponent {
 				return rowData[key]
 			})
 			let rowElement = this.createRowElement(values, false, this.stubColumnCount)
+			rowElement.addEventListener('click', this.createSelectRowAction(rowData, rowElement, row))
 			this.bodyElement().appendChild(rowElement)
 		}
 	}
