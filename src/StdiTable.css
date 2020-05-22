@@ -134,10 +134,10 @@
 	display: table-column;
 }
 
-.bodyPlus > .body > .row:hover {
+.bodyPlus > .body > .row:hover .cell {
 	background-color: #dedede;
 }
-.bodyPlus > .body > .row.select {
+.bodyPlus > .body > .row.select > .cell {
 	background-color: #b8b8b8;
 }
 
