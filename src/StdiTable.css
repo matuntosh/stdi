@@ -137,6 +137,9 @@
 .bodyPlus > .body > .row:hover {
 	background-color: #dedede;
 }
+.bodyPlus > .body > .row.select {
+	background-color: #b8b8b8;
+}
 
 .bodyPlus > .boxTail {
 	display: table-footer-group;
