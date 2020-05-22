@@ -14,6 +14,7 @@ class StdiTable extends UIComponent {
 		this._bodyPlusElement = null
 		this._bodyElement = null
 
+		this.selectingRowElement = null
 		this.selectRowAction = (rowData, rowElement, rowIndex) => {}
 	}
 
@@ -170,6 +171,11 @@ class StdiTable extends UIComponent {
 	}
 	createSelectRowAction(rowData, rowElement, rowIndex) {
 		return (e) => {
+			if (this.selectingRowElement) {
+				this.selectingRowElement.classList.remove('select')
+			}
+			this.selectingRowElement = rowElement
+			this.selectingRowElement.classList.add('select')
 			this.selectRowAction(rowData, rowElement, rowIndex)
 		}
 	}
