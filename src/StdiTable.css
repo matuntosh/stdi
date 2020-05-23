@@ -51,6 +51,18 @@
 	width: 8em;
 	text-align: right;
 }
+.StdiTable > .navigation > label {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 6em;
+	height: 100%;
+	padding: 1px;
+	font-size: calc(100% - 2px);
+	line-height: calc(100% - 2px);
+	border: solid 1px darkgray;
+	box-sizing: border-box;
+}
 
 /* see: https://developer.mozilla.org/en-US/docs/Web/CSS/display */
 .bodyPlus {

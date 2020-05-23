@@ -3,10 +3,12 @@ class StdiTable extends UIComponent {
 		super()
 		this.csvData = csvData
 		this.stubColumnCount = stubColumnCount
-		this.maxRowsByTable = maxRowsByTable || 100
+		this.maxRowsByTable = maxRowsByTable
 
-		this.currentTableIndex = 0
-		this._tableCount = null
+		this._rowRange = {
+			from: 0,
+			to: this.maxRowsByTable - 1
+		}
 
 		this._tableContainer = null
 		this._navigation = null
@@ -18,30 +20,44 @@ class StdiTable extends UIComponent {
 		this.selectRowAction = (rowData, rowElement, rowIndex) => {}
 	}
 
+	rowRange(range) {
+		if (range) {
+			this._rowRange = range
+			this.updateRowRange()
+		}
+		return this._rowRange
+	}
+	previousRange() {
+		let from = Math.max(0, this.rowRange().from - this.maxRowsByTable),
+			to = from + this.maxRowsByTable - 1
+		this.rowRange({
+			from: from,
+			to: to
+		})
+	}
+	nextRange() {
+		let to = Math.min(this.rowRange().to + this.maxRowsByTable, this.csvData.data.length - 1),
+			from = to - this.maxRowsByTable + 1
+		this.rowRange({
+			from: from,
+			to: to
+		})
+	}
 	createComponent() {
 		let c = super.createComponent()
 		this.tableContainer().appendTo(c)
 		this.navigation().appendTo(c)
 		return c
 	}
-// crushed when set left to value. 2020-05-21 Safari Version 13.1 (macOS 10.15.4)
-//	appendTo(toComponent) {
-//		super.appendTo(toComponent)
-//		let stubs = this.component().getElementsByClassName('stub')
-//		for (var i = 0; i < stubs.length; i += 1) {
-//			let stub = stubs.item(i)
-//			stub.style.left = stub.getBoundingClientRect().left + 'px'
-//		}
-//	}
-	tableCount() {
-		if (this._tableCount == null) {
-
-			this._tableCount = Math.floor(this.csvData.data.length / this.maxRowsByTable)
-			if (this.csvData.data.length - this._tableCount * this.maxRowsByTable > 0) {
-				this._tableCount += 1
-			}
+	navigationRowRangeLabel() {
+		if (this._navigationRowRangeLabel) {
+			return this._navigationRowRangeLabel
 		}
-		return this._tableCount
+		this._navigationRowRangeLabel = document.createElement('label')
+		return this._navigationRowRangeLabel
+	}
+	updateRowRange() {
+		this.navigationRowRangeLabel().innerHTML = [this.rowRange().from + 1, this.rowRange().to + 1].join(' - ')
 	}
 	navigation() {
 		if (this._navigation) {
@@ -49,24 +65,18 @@ class StdiTable extends UIComponent {
 		}
 		let naviComponent = new UIComponent(),
 			prevButton = ButtonComponent.PreviousButton((b) => {
-				this.currentTableIndex = Math.max(0, this.currentTableIndex - 1)
+				this.previousRange()
 				this.updateTable()
-				tableNumberInput.value(this.currentTableIndex + 1, b)
 			}),
 			nextButton = ButtonComponent.NextButton((b) => {
-				this.currentTableIndex = Math.min(this.currentTableIndex + 1, this.tableCount() - 1)
-				this.updateTable()
-				tableNumberInput.value(this.currentTableIndex + 1, b)
-			}),
-			tableNumberInput = new InputNumberComponent('', this.currentTableIndex + 1, 1, '', (value) => {
-				return Math.max(1, Math.min(this.tableCount(), value))
-			}, (input) => {
-				this.currentTableIndex = input.value() - 1
+				this.nextRange()
 				this.updateTable()
 			})
+		this.updateRowRange()
+
 		naviComponent.component().classList.add('navigation')
 		prevButton.appendTo(naviComponent.component())
-		tableNumberInput.appendTo(naviComponent.component())
+		naviComponent.component().appendChild(this.navigationRowRangeLabel())
 		nextButton.appendTo(naviComponent.component())
 		this._navigation = naviComponent
 		return naviComponent
@@ -142,7 +152,7 @@ class StdiTable extends UIComponent {
 			csvRows = this.csvData.data
 		this._bodyElement = document.createElement('div')
 		this._bodyElement.className = 'body'
-		let rowRange = this.tableRowRange()
+		let rowRange = this.rowRange()
 		for (var row = rowRange.from; row <= rowRange.to; row += 1) {
 			let rowData = csvRows[row]
 			let values = keys.map((key) => {
@@ -201,7 +211,7 @@ class StdiTable extends UIComponent {
 	updateBody() {
 		this.clearBodyElement()
 		let keys = this.csvData.header
-		let rowRange = this.tableRowRange()
+		let rowRange = this.rowRange()
 		for (var row = rowRange.from; row <= rowRange.to; row += 1) {
 			let rowData = this.csvData.data[row]
 			let values = keys.map((key) => {
@@ -216,17 +226,6 @@ class StdiTable extends UIComponent {
 		while (this.bodyElement().childNodes.length > 0) {
 			let node = this.bodyElement().childNodes.item(0)
 			this.bodyElement().removeChild(node)
-		}
-	}
-	tableRowRange() {
-		let from = this.currentTableIndex * this.maxRowsByTable,
-			to = from + this.maxRowsByTable
-		if (this.currentTableIndex == this.tableCount() - 1) {
-			to = from + this.csvData.data.length - (this.tableCount() - 1) * this.maxRowsByTable - 1
-		}
-		return {
-			from: from,
-			to: to
 		}
 	}
 }
