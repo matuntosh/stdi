@@ -5,10 +5,7 @@ class StdiTable extends UIComponent {
 		this.stubColumnCount = stubColumnCount
 		this.maxRowsByTable = maxRowsByTable
 
-		this._rowRange = {
-			from: 0,
-			to: this.maxRowsByTable - 1
-		}
+		this._rowRange = null
 
 		this._tableContainer = null
 		this._navigation = null
@@ -18,6 +15,9 @@ class StdiTable extends UIComponent {
 
 		this.selectingRowElement = null
 		this.selectRowAction = (rowData, rowElement, rowIndex) => {}
+
+		this._filteredData = null
+		this._rowFilter = (row, rowIndex) => { return true }
 	}
 
 	rowRange(range) {
@@ -25,19 +25,26 @@ class StdiTable extends UIComponent {
 			this._rowRange = range
 			this.updateRowRange()
 		}
+		if (!this._rowRange) {
+			this._rowRange = {
+				from: 0,
+				to: Math.min(this.filteredData().length, this.maxRowsByTable) - 1
+			}
+			this.updateRowRange()
+		}
 		return this._rowRange
 	}
 	previousRange() {
 		let from = Math.max(0, this.rowRange().from - this.maxRowsByTable),
-			to = from + this.maxRowsByTable - 1
+			to = Math.min(from + this.maxRowsByTable, this.filteredData().length) - 1
 		this.rowRange({
 			from: from,
 			to: to
 		})
 	}
 	nextRange() {
-		let to = Math.min(this.rowRange().to + this.maxRowsByTable, this.csvData.data.length - 1),
-			from = to - this.maxRowsByTable + 1
+		let to = Math.min(this.rowRange().to + this.maxRowsByTable, this.filteredData().length - 1),
+			from = Math.max(0, to - this.maxRowsByTable + 1)
 		this.rowRange({
 			from: from,
 			to: to
@@ -57,7 +64,22 @@ class StdiTable extends UIComponent {
 		return this._navigationRowRangeLabel
 	}
 	updateRowRange() {
-		this.navigationRowRangeLabel().innerHTML = [this.rowRange().from + 1, this.rowRange().to + 1].join(' - ')
+		let total = this.filteredData().length
+		if (total == 0) {
+			this.navigationRowRangeLabel().innerHTML = total
+			return
+		}
+		this.navigationRowRangeLabel().innerHTML = [
+			[
+				'[',
+				[
+					this.rowRange().from + 1,
+					this.rowRange().to + 1
+				].join(' , '),
+				']'
+			].join(' '),
+			total
+		].join(' / ')
 	}
 	navigation() {
 		if (this._navigation) {
@@ -126,7 +148,7 @@ class StdiTable extends UIComponent {
 		return bodyPlusElement
 	}
 	createBoxHeadElement() {
-		let rowDataArray = [this.csvData.header]
+		let rowDataArray = [this.header()]
 		let boxHeadElement = document.createElement('div')
 		boxHeadElement.className = 'boxHead'
 		rowDataArray.forEach((rowData) => {
@@ -138,7 +160,7 @@ class StdiTable extends UIComponent {
 	createBoxTailElement() {
 		let boxTailElement = document.createElement('div')
 		boxTailElement.className = 'boxTail';
-		let footerElement = this.createRowElement(this.csvData.header.map((key) => {
+		let footerElement = this.createRowElement(this.header().map((key) => {
 			return ''
 		}), true)
 		boxTailElement.appendChild(footerElement)
@@ -148,13 +170,12 @@ class StdiTable extends UIComponent {
 		if (this._bodyElement) {
 			return this._bodyElement
 		}
-		let keys = this.csvData.header,
-			csvRows = this.csvData.data
+		let keys = this.header()
+		let rowRange = this.rowRange()
 		this._bodyElement = document.createElement('div')
 		this._bodyElement.className = 'body'
-		let rowRange = this.rowRange()
 		for (var row = rowRange.from; row <= rowRange.to; row += 1) {
-			let rowData = csvRows[row]
+			let rowData = this.filteredData()[row]
 			let values = keys.map((key) => {
 				return rowData[key]
 			})
@@ -210,10 +231,10 @@ class StdiTable extends UIComponent {
 	}
 	updateBody() {
 		this.clearBodyElement()
-		let keys = this.csvData.header
+		let keys = this.header()
 		let rowRange = this.rowRange()
 		for (var row = rowRange.from; row <= rowRange.to; row += 1) {
-			let rowData = this.csvData.data[row]
+			let rowData = this.filteredData()[row]
 			let values = keys.map((key) => {
 				return rowData[key]
 			})
@@ -227,5 +248,28 @@ class StdiTable extends UIComponent {
 			let node = this.bodyElement().childNodes.item(0)
 			this.bodyElement().removeChild(node)
 		}
+	}
+
+	header() {
+		return this.csvData.header
+	}
+	data() {
+		return this.csvData.data
+	}
+	filteredData() {
+		if (!this._filteredData) {
+			this._filteredData = this.data().filter(this.rowFilter())
+		}
+		return this._filteredData
+	}
+	rowFilter(filter) {
+		if (filter) {
+			this._rowFilter = filter
+			this._rowRange = null
+			this._filteredData = null
+			this.updateRowRange()
+			this.updateTable()
+		}
+		return this._rowFilter
 	}
 }

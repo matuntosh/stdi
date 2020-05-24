@@ -53,11 +53,11 @@
 }
 .StdiTable > .navigation > label {
 	display: inline-flex;
-	justify-content: center;
+	justify-content: flex-end;
 	align-items: center;
-	min-width: 6em;
+	min-width: 9em;
 	height: 100%;
-	padding: 1px;
+	padding: 4px;
 	font-size: calc(100% - 2px);
 	line-height: calc(100% - 2px);
 	border: solid 1px darkgray;
