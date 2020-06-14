@@ -1,0 +1,32 @@
+{
+  "name": "stdi",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "src": "file:../deep"
+  },
+  "devDependencies": {
+    "css-loader": "^3.5.3",
+    "style-loader": "^1.2.1",
+    "webpack-cli": "^3.3.11",
+    "webpack": "^4.43.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matuntosh/stdi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matuntosh/stdi/issues"
+  },
+  "homepage": "https://github.com/matuntosh/stdi#readme"
+}

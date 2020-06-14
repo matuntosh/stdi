@@ -1,4 +1,6 @@
-class StdiTable extends UIComponent {
+import {UIComponent} from '../lib/deep/deep.js'
+import './StdiTable.css'
+export class StdiTable extends UIComponent {
 	constructor(csvData, stubColumnCount, maxRowsByTable) {
 		super()
 		this.csvData = csvData
